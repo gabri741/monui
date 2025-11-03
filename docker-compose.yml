@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./gateway:/app/src
+      - /app/node_modules
+    environment:
+      USER_SERVICE_URL: http://user-service:3001
+    depends_on:
+      - user-service
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./user-service/src:/app/src 
+      - /app/node_modules
+    environment:
+      DATABASE_HOST: user-service-db
+      DATABASE_PORT: 5432
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: usersdb
+    depends_on:
+      - user-service-db
+
+  user-service-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: usersdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - user-service-db:/var/lib/postgresql/data
+
+volumes:
+  user-service-db:

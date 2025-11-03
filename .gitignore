@@ -1,0 +1,151 @@
+# =========================================
+# === NODE / NESTJS / REACT / NEXT.JS ====
+# =========================================
+
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+coverage/
+tmp/
+temp/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# NestJS specific
+*.tsbuildinfo
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+
+# Editor directories and files
+.vscode/
+*.code-workspace
+*.history
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+__MACOSX/
+
+# Optional npm cache directory
+.npm
+.yarn
+.pnp.*
+.pnp.js
+.pnp.cjs
+.yarnrc.yml
+.yarn-integrity
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Optional coverage output
+coverage/
+.nyc_output/
+
+# Optional build artifacts
+lib/
+.serve/
+serverless/
+
+# Next.js build output
+.next/
+out/
+.vercel/
+
+# React build output
+build/
+.cache/
+.expo/
+web-build/
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+docker-compose.local.yml
+**/docker-data/
+**/.docker/
+
+# Prisma
+prisma/dev.db
+prisma/migrations/
+prisma/*.db-journal
+
+# SQLite
+*.sqlite
+*.sqlite-journal
+
+# Test coverage
+coverage/
+lcov-report/
+
+# Miscellaneous
+*.tgz
+*.zip
+*.tar
+*.tar.gz
+*.tmp
+*.bak
+*.backup
+*.orig
+*.rej
+
+# VSCode Remote Containers
+.devcontainer/
+
+# JetBrains
+.idea/
+*.iml
+out/
+
+# Optional npm lock files (keep only one)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# System files
+*.envrc
