@@ -25,6 +25,7 @@ services:
       - ./user-service/src:/app/src 
       - /app/node_modules
     environment:
+      NODE_ENV: development
       DATABASE_HOST: user-service-db
       DATABASE_PORT: 5432
       DATABASE_USER: user
@@ -45,5 +46,35 @@ services:
     volumes:
       - user-service-db:/var/lib/postgresql/data
 
+  event-service:
+    build:
+      context: ./event-service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      DATABASE_HOST: event-service-db
+      DATABASE_PORT: 5432
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: eventsdb
+    depends_on:
+      - event-service-db
+
+  event-service-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eventsdb
+    ports:
+      - "5433:5432" 
+    volumes:
+      - event-service-db:/var/lib/postgresql/data
+
+
 volumes:
   user-service-db:
+  event-service-db:
