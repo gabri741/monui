@@ -10,11 +10,12 @@ export class ProxyController {
   async handleAll(
     @Req() req: Request,
     @Res() res: Response,
-    @Body() body: any, // 👈 Usar decorator
+    @Body() body: any,
     @Headers() headers: Record<string, string>,
   ): Promise<void> {
     const baseMap = {
       '/users': process.env.USER_SERVICE_URL || 'http://localhost:3001',
+      '/events': process.env.EVENT_SERVICE_URL || 'http://localhost:3002',
     };
 
     const baseUrl = Object.keys(baseMap).find((prefix) =>

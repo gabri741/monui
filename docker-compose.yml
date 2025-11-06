@@ -12,8 +12,10 @@ services:
       - /app/node_modules
     environment:
       USER_SERVICE_URL: http://user-service:3001
+      EVENT_SERVICE_URL: http://event-service:3002
     depends_on:
       - user-service
+      - event-service
 
   user-service:
     build:
