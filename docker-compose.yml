@@ -13,9 +13,11 @@ services:
     environment:
       USER_SERVICE_URL: http://user-service:3001
       EVENT_SERVICE_URL: http://event-service:3002
+      NOTIFICATION_SERVICE_URL: http://notification-service:3003
     depends_on:
       - user-service
       - event-service
+      - notification-service
 
   user-service:
     build:
@@ -54,6 +56,9 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "3002:3002"
+    volumes:
+      - ./event-service/src:/app/src
+      - /app/node_modules
     environment:
       NODE_ENV: development
       DATABASE_HOST: event-service-db
@@ -76,7 +81,38 @@ services:
     volumes:
       - event-service-db:/var/lib/postgresql/data
 
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./notification-service/src:/app/src
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+      DATABASE_HOST: notification-service-db
+      DATABASE_PORT: 5432
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: notificationsdb
+    depends_on:
+      - notification-service-db
+
+  notification-service-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notificationsdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - notification-service-db:/var/lib/postgresql/data
 
 volumes:
   user-service-db:
   event-service-db:
+  notification-service-db:

@@ -16,6 +16,7 @@ export class ProxyController {
     const baseMap = {
       '/users': process.env.USER_SERVICE_URL || 'http://localhost:3001',
       '/events': process.env.EVENT_SERVICE_URL || 'http://localhost:3002',
+      '/notifications': process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:3003'
     };
 
     const baseUrl = Object.keys(baseMap).find((prefix) =>

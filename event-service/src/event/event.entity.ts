@@ -21,10 +21,6 @@ export class Event {
   @Column({ type: 'timestamp' })
   datetime: Date;
 
-  // Lista de telefones associados ao evento
-  @Column('text', { array: true, nullable: true })
-  phones?: string[];
-
   @CreateDateColumn()
   createdAt: Date;
 
