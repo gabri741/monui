@@ -90,13 +90,8 @@ services:
     volumes:
       - ./notification-service/src:/app/src
       - /app/node_modules
-    environment:
-      NODE_ENV: development
-      DATABASE_HOST: notification-service-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: user
-      DATABASE_PASSWORD: password
-      DATABASE_NAME: notificationsdb
+    env_file:
+      - ./notification-service/.env
     depends_on:
       - notification-service-db
 

@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { Notification } from '../notification/notification.entity';
@@ -16,9 +17,6 @@ export class NotificationRecipient {
   @Column()
   phoneNumber: string;
 
-  @Column({ default: false })
-  delivered: boolean;
-
   @ManyToOne(() => Notification, (notification) => notification.recipients, {
     onDelete: 'CASCADE',
   })
@@ -26,4 +24,16 @@ export class NotificationRecipient {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
+    updatedAt: Date;
+
+  @Column({ nullable: true })
+  lastAttempt?: Date;
+
+  @Column({ default: 0 })
+  retryCount: number;
+
+  @Column({ default: 'pending' })
+  status: 'pending' | 'scheduled' | 'sent' | 'failed';
 }
