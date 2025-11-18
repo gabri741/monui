@@ -26,7 +26,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./user-service/src:/app/src 
+      - ./user-service/src:/app/src
       - /app/node_modules
     environment:
       NODE_ENV: development
@@ -77,7 +77,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: eventsdb
     ports:
-      - "5433:5432" 
+      - "5433:5432"
     volumes:
       - event-service-db:/var/lib/postgresql/data
 
@@ -106,6 +106,17 @@ services:
       - "5434:5432"
     volumes:
       - notification-service-db:/var/lib/postgresql/data
+
+  next-app:
+    build: ./monui-frontend
+    container_name: next-app
+    ports:
+      - "3005:3000" 
+    environment:
+      - NODE_ENV=production
+      - API_URL=http://gateway:3000  
+    depends_on:
+      - gateway
 
 volumes:
   user-service-db:

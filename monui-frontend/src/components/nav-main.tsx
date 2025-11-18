@@ -1,8 +1,10 @@
 "use client"
 
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react"
+import type { LucideIcon } from "lucide-react"
+import type { Icon as TablerIcon } from "@tabler/icons-react"
 
-import { Button } from "@/components/ui/button"
+import { IconCirclePlusFilled } from "@tabler/icons-react"
+
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -11,18 +13,22 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+type AnyIcon = LucideIcon | TablerIcon
+
 export function NavMain({
   items,
 }: {
   items: {
     title: string
     url: string
-    icon?: Icon
+    icon?: AnyIcon
   }[]
 }) {
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
+        
+        {/* Botão criar */}
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
@@ -34,6 +40,8 @@ export function NavMain({
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+
+        {/* Itens dinâmicos */}
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
@@ -44,6 +52,7 @@ export function NavMain({
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
+
       </SidebarGroupContent>
     </SidebarGroup>
   )
