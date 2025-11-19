@@ -108,15 +108,22 @@ services:
       - notification-service-db:/var/lib/postgresql/data
 
   next-app:
-    build: ./monui-frontend
+    build:
+      context: ./monui-frontend
+      dockerfile: Dockerfile.dev
     container_name: next-app
     ports:
-      - "3005:3000" 
+      - "3005:3000"
+    volumes:
+      - ./monui-frontend:/app
+      - /app/node_modules
     environment:
-      - NODE_ENV=production
-      - API_URL=http://gateway:3000  
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
     depends_on:
       - gateway
+
 
 volumes:
   user-service-db:

@@ -31,5 +31,5 @@ export class Event {
   isActive: boolean;
 
   @Column({ type: 'uuid' })
-  createdBy: string; 
+  createdBy: string;
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from './event.entity';
 
@@ -29,5 +29,10 @@ export class EventController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<{ message: string }> {
     return await this.eventService.remove(id);
+  }
+
+  @Get('metrics/:userId')
+  async getMetrics(@Param('userId') userId: string) {
+    return this.eventService.getMetrics(userId);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, MoreThan, Repository } from 'typeorm';
 import { Event } from './event.entity';
 
 @Injectable()
@@ -42,4 +42,59 @@ export class EventService {
     await this.eventRepository.remove(event);
     return { message: 'Evento removido com sucesso' };
   }
+
+
+  async getMetrics(userId: string) {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+
+    // 1️⃣ QTD de eventos criados no ano pelo usuário
+    const yearCreatedCount = await this.eventRepository.count({
+      where: {
+        createdBy: userId,
+        createdAt: Between(
+          new Date(`${currentYear}-01-01T00:00:00`),
+          new Date(`${currentYear}-12-31T23:59:59`)
+        ),
+      },
+    });
+
+    // 2️⃣ Próximo evento futuro do usuário
+    const nextEvent = await this.eventRepository.findOne({
+      where: {
+        createdBy: userId,
+        isActive: true,
+        datetime: MoreThan(now),
+      },
+      order: { datetime: 'ASC' },
+      select: ['title', 'datetime'],
+    });
+
+    // 3️⃣ QTD de eventos futuros até o fim do ano
+    const futureEventsCount = await this.eventRepository.count({
+      where: {
+        createdBy: userId,
+        isActive: true,
+        datetime: Between(
+          now,
+          new Date(`${currentYear}-12-31T23:59:59`)
+        ),
+      },
+    });
+
+    // 4️⃣ Último evento criado (baseado em createdAt)
+    const lastCreatedEvent = await this.eventRepository.findOne({
+      where: { createdBy: userId },
+      order: { createdAt: 'DESC' },
+      select: ['title', 'createdAt', 'datetime'],
+    });
+
+    return {
+      yearCreatedCount,
+      nextEvent,
+      futureEventsCount,
+      lastCreatedEvent,
+    };
+  }
+
 }
