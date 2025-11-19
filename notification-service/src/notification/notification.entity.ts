@@ -38,4 +38,6 @@ export class Notification {
   @UpdateDateColumn()
   updatedAt: Date;
   
+  @Column({ type: 'uuid', nullable: true })
+  createdBy: string;
 }

@@ -26,7 +26,7 @@ export class NotificationRecipient {
   createdAt: Date;
 
   @UpdateDateColumn()
-    updatedAt: Date;
+  updatedAt: Date;
 
   @Column({ nullable: true })
   lastAttempt?: Date;
@@ -35,5 +35,5 @@ export class NotificationRecipient {
   retryCount: number;
 
   @Column({ default: 'pending' })
-  status: 'pending' | 'scheduled' | 'sent' | 'failed';
+  status: 'pending' | 'scheduled' | 'sent' | 'failed' | 'maxtry' ;
 }

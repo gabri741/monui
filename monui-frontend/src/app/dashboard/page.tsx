@@ -2,13 +2,14 @@
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import data from "./data.json";
 import { useEventMetrics } from "../hooks/useEvents";
+import { DataTable } from "@/components/data-table";
+
 
 export default function Page() {
   const { metrics, loading } = useEventMetrics("e3e1f37b-45b3-4a1f-93a7-89d21ce52a77");
@@ -52,9 +53,9 @@ if (loading) {
                 ultimoEventoCriadoEm={formatDate(metrics.lastCreatedEvent?.createdAt) ?? ""}
               />
               <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+                <ChartAreaInteractive userId="e3e1f37b-45b3-4a1f-93a7-89d21ce52a77" />
               </div>
-              <DataTable data={data} />
+              <DataTable />
             </div>
           </div>
         </div>
