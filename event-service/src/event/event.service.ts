@@ -27,7 +27,8 @@ export class EventService {
 
   async findOne(id: string): Promise<Event> {
     const event = await this.eventRepository.findOne({ where: { id } });
-    if (!event) throw new NotFoundException(`Evento com id ${id} não encontrado`);
+    if (!event)
+      throw new NotFoundException(`Evento com id ${id} não encontrado`);
     return event;
   }
 
@@ -43,7 +44,6 @@ export class EventService {
     return { message: 'Evento removido com sucesso' };
   }
 
-
   async getMetrics(userId: string) {
     const now = new Date();
     const currentYear = now.getFullYear();
@@ -54,7 +54,7 @@ export class EventService {
         createdBy: userId,
         createdAt: Between(
           new Date(`${currentYear}-01-01T00:00:00`),
-          new Date(`${currentYear}-12-31T23:59:59`)
+          new Date(`${currentYear}-12-31T23:59:59`),
         ),
       },
     });
@@ -75,10 +75,7 @@ export class EventService {
       where: {
         createdBy: userId,
         isActive: true,
-        datetime: Between(
-          now,
-          new Date(`${currentYear}-12-31T23:59:59`)
-        ),
+        datetime: Between(now, new Date(`${currentYear}-12-31T23:59:59`)),
       },
     });
 
@@ -97,4 +94,67 @@ export class EventService {
     };
   }
 
+  async findAllPaginated(
+    userId: string,
+    page = 1,
+    limit = 20,
+  ): Promise<{ data: Event[]; total: number }> {
+    const query = this.eventRepository
+      .createQueryBuilder('event')
+      .where('"event"."createdBy" = :userId', { userId })
+      .orderBy('"event"."createdAt"', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const [data, total] = await query.getManyAndCount();
+
+    return { data, total };
+  }
+
+  async findAllByMonth(
+    month: number,
+    year: number,
+    userId: string,
+  ): Promise<Event[]> {
+    // Primeiro dia do mês
+    const startDate = new Date(year, month - 1, 1, 0, 0, 0);
+    
+    // Primeiro dia do mês seguinte
+    const endDate = new Date(year, month, 1, 0, 0, 0);
+
+    const events = await this.eventRepository.find({
+      where: {
+        createdBy: userId,
+        isActive: true,
+        datetime: Between(startDate, endDate),
+      },
+      order: {
+        datetime: 'ASC',
+      },
+    });
+
+    return events;
+  }
+
+   async findAllByMonthGroupedByDay(
+    month: number,
+    year: number,
+    userId: string,
+  ): Promise<Record<string, Event[]>> {
+    const events = await this.findAllByMonth(month, year, userId);
+    
+    const grouped = events.reduce((acc, event) => {
+      const day = new Date(event.datetime).getDate().toString();
+      
+      if (!acc[day]) {
+        acc[day] = [];
+      }
+      
+      acc[day].push(event);
+      
+      return acc;
+    }, {} as Record<string, Event[]>);
+
+    return grouped;
+  }
 }

@@ -44,17 +44,17 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: LucideLayoutDashboard,
     },
     {
-      title: "Calendário",
-      url: "#",
+      title: "Agenda",
+      url: "/agenda",
       icon: Calendar,
     },
     {
       title: "Eventos",
-      url: "#",
+      url: "/eventos",
       icon: Inbox,
     }
   ],

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Meu MicroSaaS",
+  title: "Monui",
   description: "Dashboard inicial",
 };
 

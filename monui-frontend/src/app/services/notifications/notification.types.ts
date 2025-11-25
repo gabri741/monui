@@ -31,3 +31,13 @@ export interface NotificationRecipient {
     createdAt: string;
   };
 }
+
+
+export interface CreateReminderDTO {
+  title: string;
+  body: string;
+  triggerDates: string[];
+  eventId: string;
+  createdBy: string;
+  recipients: { phoneNumber: string }[];
+}
