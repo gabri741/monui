@@ -1,6 +1,389 @@
-# MONUI – Sistema de Notificações Personalizadas
+# Monui 📅
 
-## 📌 Sobre o Projeto
-Este projeto foi desenvolvido como parte de uma pós-graduação, com o objetivo de criar uma aplicação moderna e intuitiva que permita o agendamento de eventos e o envio de lembretes personalizados via WhatsApp.
+> Sistema de Gerenciamento de Eventos com Notificações Automatizadas via WhatsApp
 
-(Conteúdo completo será inserido a partir da resposta anterior.)
+[![GitHub](https://img.shields.io/badge/GitHub-monui-blue?logo=github)](https://github.com/gabri741/monui)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
+
+## 📖 Sobre o Projeto
+
+**Monui** é uma aplicação web desenvolvida como Trabalho de Conclusão de Curso da Pós-Graduação em Desenvolvimento Full Stack, criada para solucionar um problema comum na vida moderna: o esquecimento de eventos importantes.
+
+Na era digital, marcada por rotinas aceleradas e múltiplos compromissos, muitas pessoas encontram dificuldades para organizar e lembrar eventos como consultas médicas, aniversários, compromissos profissionais, reuniões escolares e celebrações especiais. O Monui surge como uma solução intuitiva e eficaz para esse desafio.
+
+### 🎯 Problema Resolvido
+
+A ausência de sistemas simples e personalizados faz com que eventos importantes sejam esquecidos. O Monui permite que usuários configurem lembretes para si mesmos e para outras pessoas, possibilitando o envio de convites com confirmação de presença via WhatsApp, garantindo que nada seja perdido.
+
+---
+
+## ✨ Funcionalidades
+
+- 🔐 **Autenticação Segura**: Login padrão ou via OAuth do Google
+- 📆 **Gestão de Eventos**: Cadastro, edição e exclusão de compromissos
+- 👥 **Gerenciamento de Contatos**: Organização dos convidados de cada evento
+- 💬 **Notificações WhatsApp**: Envio automatizado de lembretes personalizados
+- ⏰ **Agendamento Inteligente**: Configure data e horário específicos para cada notificação
+- 📊 **Dashboard Analytics**: Visualização de estatísticas sobre eventos e notificações
+- 📅 **Visualização em Calendário**: Interface visual para acompanhar eventos programados
+- 📈 **Histórico Completo**: Registro de eventos e notificações enviadas
+- ✅ **Confirmação de Presença**: Recebimento e registro de respostas dos convidados
+
+---
+
+## 🎯 Objetivos
+
+### Objetivo Estratégico
+Criar uma aplicação intuitiva e acessível para envio de lembretes personalizados, aprimorando conhecimentos em:
+- Arquitetura de microsserviços
+- Mensageria e comunicação assíncrona
+- Práticas de DevOps e CI/CD
+
+### Objetivos Específicos
+- Desenvolver interface amigável para cadastro de eventos e contatos
+- Implementar agendamento de notificações personalizadas
+- Integrar com APIs de mensagens via WhatsApp (GreenAPI)
+- Implementar autenticação padrão e OAuth do Google
+- Armazenar e exibir histórico de eventos e notificações
+- Gerar relatórios e estatísticas de uso
+
+---
+
+## 🏗️ Arquitetura
+
+O projeto utiliza uma **arquitetura de microsserviços**, garantindo escalabilidade, modularidade e facilidade de manutenção.
+
+### Microsserviços
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        API Gateway                           │
+│                   (Ponto de Entrada Único)                   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+   ┌────▼────┐         ┌─────▼─────┐        ┌─────▼─────┐
+   │  Auth   │         │  Usuários │        │  Eventos  │
+   │ Service │         │  Service  │        │  Service  │
+   └─────────┘         └───────────┘        └───────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+   ┌────▼────────┐     ┌─────▼──────┐      ┌──────▼──────┐
+   │Notificações │     │ Scheduler  │      │   Frontend  │
+   │   Service   │     │  Service   │      │   (React)   │
+   └─────────────┘     └────────────┘      └─────────────┘
+```
+
+#### 🔹 Auth Service
+Gerencia autenticação e autorização, incluindo login tradicional e OAuth do Google, com geração de tokens JWT.
+
+#### 🔹 Usuários Service
+Armazena e gerencia dados cadastrais, preferências de notificação e validação de números do WhatsApp.
+
+#### 🔹 Eventos Service
+Núcleo da aplicação responsável por criar, editar e gerenciar eventos com suas informações completas (data, descrição, local, convidados).
+
+#### 🔹 Notificações Service
+Integra com a API do WhatsApp (Green-API) para envio de mensagens e processa respostas via webhooks.
+
+#### 🔹 Scheduler Service
+Executa tarefas agendadas, verificando eventos próximos e acionando notificações automaticamente.
+
+#### 🔹 API Gateway
+Ponto de entrada único que roteia requisições, aplica políticas de segurança e controla o tráfego.
+
+#### 🔹 Frontend
+Interface web responsiva e intuitiva para interação com usuários.
+
+---
+
+## 🛠️ Tecnologias
+
+### Backend
+- **Node.js** - Runtime JavaScript
+- **NestJS** - Framework progressivo para Node.js
+- **TypeScript** - Superset JavaScript tipado
+
+### Frontend
+- **React** - Biblioteca para construção de interfaces
+- **Next.js** - Framework React com SSR
+- **TailwindCSS** - Framework CSS utilitário
+
+### Mensageria
+- **RabbitMQ** - Message broker para comunicação assíncrona
+
+### Banco de Dados
+- **PostgreSQL** - Banco relacional
+- **MongoDB** - Banco NoSQL para dados não estruturados
+
+### Integração
+- **Green-API** - API para integração com WhatsApp
+
+### Testes
+- **Jest** - Framework de testes JavaScript
+
+### DevOps
+- **Git** - Controle de versão
+- **GitHub Actions** - CI/CD
+- **Docker** - Containerização
+- **Swagger** - Documentação de APIs
+
+---
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+
+- Node.js 18+
+- Docker e Docker Compose
+- PostgreSQL
+- MongoDB
+- Conta na Green-API (para integração WhatsApp)
+
+### Instalação
+
+1. **Clone o repositório**
+```bash
+git clone https://github.com/gabri741/monui.git
+cd monui
+```
+
+2. **Configure as variáveis de ambiente**
+```bash
+# Copie os arquivos de exemplo
+cp .env.example .env
+
+# Configure as credenciais necessárias:
+# - Banco de dados (PostgreSQL e MongoDB)
+# - Green-API (WhatsApp)
+# - OAuth Google
+# - JWT Secret
+```
+
+3. **Instale as dependências**
+```bash
+# Backend
+cd backend
+npm install
+
+# Frontend
+cd ../frontend
+npm install
+```
+
+4. **Execute com Docker**
+```bash
+# Na raiz do projeto
+docker-compose up -d
+```
+
+5. **Acesse a aplicação**
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:3001`
+- API Docs (Swagger): `http://localhost:3001/api/docs`
+
+---
+
+## 🧪 Testes
+
+O projeto conta com uma cobertura completa de testes:
+
+### Testes Unitários
+```bash
+npm run test
+```
+
+### Testes de Integração
+```bash
+npm run test:integration
+```
+
+### Cobertura de Testes
+```bash
+npm run test:cov
+```
+
+### Tipos de Validação Implementados
+- ✅ Testes unitários da camada de serviço de cada microsserviço
+- ✅ Testes de integração com APIs (mockadas e reais)
+- ✅ Verificação de entrega de mensagens via webhooks
+- ✅ Monitoramento com logs estruturados
+- ✅ Dashboards de observabilidade (Grafana)
+
+---
+
+## 📱 Telas da Aplicação
+
+### 1. Login
+Autenticação via email/senha ou OAuth do Google.
+
+### 2. Dashboard
+Visão geral com estatísticas de eventos, notificações disparadas, custos e status do plano.
+
+### 3. Criar Evento
+Formulário completo para cadastro de novos eventos com definição de contatos e horários de notificação.
+
+### 4. Listar Eventos
+Visualização de todos os eventos cadastrados com opções de edição e exclusão.
+
+### 5. Calendário
+Representação visual dos eventos agendados, similar a uma agenda tradicional.
+
+---
+
+## 👥 Público-Alvo
+
+- 👤 Usuários comuns organizando compromissos pessoais
+- 💑 Casais planejando casamentos e eventos sociais
+- 👨‍👩‍👧 Pais gerenciando agendas escolares e médicas
+- 💼 Pequenos prestadores de serviços (personal trainers, professores, autônomos)
+
+---
+
+## 💼 Modelo de Negócio
+
+### Plano Gratuito
+- Limite de eventos por mês
+- Limite de disparos de notificações
+- Funcionalidades básicas
+
+### Plano Premium
+- ✨ Agendamentos ilimitados
+- ✨ Confirmação de leitura
+- ✨ Personalização avançada de mensagens
+- ✨ Relatórios detalhados
+- ✨ Suporte prioritário
+
+---
+
+## 🔄 Jornada do Usuário
+
+1. **Autenticação**: Login via email ou Google
+2. **Cadastro de Evento**: Criar compromisso (ex: "Meu Casamento - 21/09/2025")
+3. **Definição de Contatos**: Adicionar convidados com nome e telefone
+4. **Agendamento**: Escolher data e horário de envio das notificações
+5. **Envio Automático**: Sistema dispara mensagens no momento programado
+6. **Acompanhamento**: Visualizar status de entrega e confirmações
+
+---
+
+## 📊 Monitoramento e Observabilidade
+
+O sistema implementa práticas modernas de monitoramento:
+
+- 📝 **Logs Estruturados**: Rastreamento detalhado de operações
+- 📈 **Dashboards em Tempo Real**: Visualização com Grafana
+- 🔔 **Webhooks**: Confirmação de entrega de mensagens
+- 🎯 **Métricas de Performance**: Acompanhamento de SLAs
+
+---
+
+## 🚀 CI/CD
+
+Pipeline automatizado com GitHub Actions:
+
+1. **Build**: Compilação e validação do código
+2. **Test**: Execução de testes unitários e integração
+3. **Docker**: Build e push de imagens
+4. **Deploy**: Publicação automatizada em ambiente controlado
+
+---
+
+## 📚 Documentação da API
+
+A documentação completa das APIs está disponível via Swagger:
+
+```
+http://localhost:3001/api/docs
+```
+
+Todas as rotas, parâmetros, payloads e respostas estão documentadas de forma interativa.
+
+---
+
+## 🎓 Aprendizados do Projeto
+
+Este projeto proporcionou evolução significativa em:
+
+- ✅ Arquitetura de microsserviços
+- ✅ Integração com APIs externas
+- ✅ Comunicação assíncrona com mensageria
+- ✅ Implementação de CI/CD
+- ✅ Containerização com Docker
+- ✅ Testes automatizados
+- ✅ Segurança e autenticação (JWT/OAuth)
+- ✅ DevOps e automação
+- ✅ Desenvolvimento full stack moderno
+
+---
+
+## 🔮 Próximos Passos
+
+- [ ] Integração com outros canais de notificação (SMS, Email)
+- [ ] Aplicativo mobile (React Native)
+- [ ] Inteligência artificial para sugestão de horários
+- [ ] Integração com calendários externos (Google Calendar, Outlook)
+- [ ] Sistema de templates de mensagens
+- [ ] Análise de engajamento dos convidados
+- [ ] Multi-idiomas
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Para contribuir:
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 👨‍💻 Autor
+
+**Gabriel**
+
+- GitHub: [@gabri741](https://github.com/gabri741)
+- LinkedIn: [Seu LinkedIn]
+
+---
+
+## 📞 Contato
+
+Para dúvidas, sugestões ou oportunidades:
+
+- 📧 Email: [seu-email@example.com]
+- 💼 LinkedIn: [Seu perfil]
+- 🐙 GitHub: [@gabri741](https://github.com/gabri741)
+
+---
+
+## 🙏 Agradecimentos
+
+- Instituição de ensino pela orientação durante o desenvolvimento
+- Comunidade open source pelas ferramentas utilizadas
+- Colegas de turma pelo apoio e feedback
+
+---
+
+<div align="center">
+
+**Desenvolvido com ❤️ como Trabalho de Conclusão de Curso**
+
+**Pós-Graduação em Desenvolvimento Full Stack**
+
+⭐ Se este projeto foi útil, considere dar uma estrela no GitHub!
+
+</div>
