@@ -9,11 +9,8 @@ services:
       - "3000:3000"
     volumes:
       - ./gateway:/app/src
-    environment:
-      USER_SERVICE_URL: http://user-service:3001
-      EVENT_SERVICE_URL: http://event-service:3002
-      NOTIFICATION_SERVICE_URL: http://notification-service:3003
-      AUTH_SERVICE_URL: http://auth-service:3004
+    env_file:
+      - ./gateway/.env
     depends_on:
       - user-service
       - event-service
@@ -27,23 +24,16 @@ services:
       - "3001:3001"
     volumes:
       - ./user-service/src:/app/src
-    environment:
-      NODE_ENV: development
-      DATABASE_HOST: user-service-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: user
-      DATABASE_PASSWORD: password
-      DATABASE_NAME: usersdb
+    env_file:
+      - ./user-service/.env
     depends_on:
       - user-service-db
 
   user-service-db:
     image: postgres:15
     restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: usersdb
+    env_file:
+      - ./user-service/.env
     ports:
       - "5432:5432"
     volumes:
@@ -57,23 +47,16 @@ services:
       - "3002:3002"
     volumes:
       - ./event-service/src:/app/src
-    environment:
-      NODE_ENV: development
-      DATABASE_HOST: event-service-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: user
-      DATABASE_PASSWORD: password
-      DATABASE_NAME: eventsdb
+    env_file:
+      - ./event-service/.env
     depends_on:
       - event-service-db
 
   event-service-db:
     image: postgres:15
     restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: eventsdb
+    env_file:
+      - ./event-service/.env
     ports:
       - "5433:5432"
     volumes:
@@ -95,10 +78,8 @@ services:
   notification-service-db:
     image: postgres:15
     restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: notificationsdb
+    env_file:
+      - ./notification-service/.env
     ports:
       - "5434:5432"
     volumes:
