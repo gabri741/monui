@@ -3,8 +3,8 @@ import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, Repository } from 'typeorm';
 import { Notification } from './notification.entity';
-import { NotificationRecipient } from 'src/notification-recipient/notification-recipient.entity';
-import { MessageService } from 'src/message/message.service';
+import { NotificationRecipient } from '../notification-recipient/notification-recipient.entity';
+import { MessageService } from '../message/message.service';
 
 const MAX_RETRIES = 3;
 
