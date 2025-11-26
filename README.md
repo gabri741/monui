@@ -4,7 +4,7 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-monui-blue?logo=github)](https://github.com/gabri741/monui)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
 
 ## 📖 Sobre o Projeto
@@ -74,6 +74,7 @@ Interface web responsiva e intuitiva para interação com usuários.
 
 ### Integração
 - **ULTRAMSG** - API para integração com WhatsApp
+- **Google OAUTH** - API para autenticação via Google
 
 ### Testes
 - **Jest** - Framework de testes JavaScript
@@ -88,11 +89,16 @@ Interface web responsiva e intuitiva para interação com usuários.
 
 ### Pré-requisitos
 
-- Node.js 18+
+- Node.js 20+
 - Docker e Docker Compose
-- PostgreSQL
-- MongoDB
-- Conta na Green-API (para integração WhatsApp)
+
+### Links Úteis
+
+- [ULTRAMSG](https://ultramsg.com/)
+- [Google Cloud](https://console.cloud.google.com/)
+- [Node.js 20+](https://nodejs.org/pt/download)
+- [Docker]https://www.docker.com/get-started/
+
 
 ### Instalação
 
@@ -103,32 +109,34 @@ cd monui
 ```
 
 2. **Configure as variáveis de ambiente**
+
+Cada microserviço e o frontend tem o seu próprio .env que precisa ser configurado.
+Principalmente o .env do auth-service, notification-service e frontend, por ter as integrações com o ULTRAMSG e o Google;
+
 ```bash
 # Copie os arquivos de exemplo
 cp .env.example .env
 
 # Configure as credenciais necessárias:
-# - Banco de dados (PostgreSQL e MongoDB)
-# - Green-API (WhatsApp)
+# - Banco de dados (PostgreSQL)
+# - ULTRAMSG(WhatsApp)
 # - OAuth Google
 # - JWT Secret
 ```
 
 3. **Instale as dependências**
 ```bash
-# Backend
-cd backend
+# Cada Microserviço
 npm install
 
 # Frontend
-cd ../frontend
 npm install
 ```
 
 4. **Execute com Docker**
 ```bash
 # Na raiz do projeto
-docker-compose up -d
+docker-compose up --build
 ```
 
 5. **Acesse a aplicação**
