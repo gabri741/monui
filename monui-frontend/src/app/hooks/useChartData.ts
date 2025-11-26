@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { NotificationChart } from "../services/notifications/notification.types";
 import { getNotificationChartData } from "../services/notifications/notification.api";
 
-
 export function useNotificationStats(userId: string, period: string) {
   const [data, setData] = useState<NotificationChart[]>([]);
   const [loading, setLoading] = useState(true);
+
+  if (!userId) {
+    setLoading(false);
+    return;
+  }
 
   useEffect(() => {
     setLoading(true);

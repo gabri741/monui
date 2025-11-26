@@ -48,6 +48,8 @@ export function ChartAreaInteractive({ userId }: { userId: string }) {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = React.useState("90d")
 
+  
+
   // Hook buscando no backend:
   const { data, loading } = useNotificationStats(userId, timeRange)
 

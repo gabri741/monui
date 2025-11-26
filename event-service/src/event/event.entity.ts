@@ -17,7 +17,6 @@ export class Event {
   @Column({ nullable: true })
   description?: string;
 
-  // Data e hora do evento
   @Column({ type: 'timestamp' })
   datetime: Date;
 

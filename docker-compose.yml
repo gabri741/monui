@@ -9,11 +9,11 @@ services:
       - "3000:3000"
     volumes:
       - ./gateway:/app/src
-      - /app/node_modules
     environment:
       USER_SERVICE_URL: http://user-service:3001
       EVENT_SERVICE_URL: http://event-service:3002
       NOTIFICATION_SERVICE_URL: http://notification-service:3003
+      AUTH_SERVICE_URL: http://auth-service:3004
     depends_on:
       - user-service
       - event-service
@@ -27,7 +27,6 @@ services:
       - "3001:3001"
     volumes:
       - ./user-service/src:/app/src
-      - /app/node_modules
     environment:
       NODE_ENV: development
       DATABASE_HOST: user-service-db
@@ -58,7 +57,6 @@ services:
       - "3002:3002"
     volumes:
       - ./event-service/src:/app/src
-      - /app/node_modules
     environment:
       NODE_ENV: development
       DATABASE_HOST: event-service-db
@@ -89,7 +87,6 @@ services:
       - "3003:3003"
     volumes:
       - ./notification-service/src:/app/src
-      - /app/node_modules
     env_file:
       - ./notification-service/.env
     depends_on:
@@ -116,13 +113,24 @@ services:
       - "3005:3000"
     volumes:
       - ./monui-frontend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - WATCHPACK_POLLING=true
-      - NEXT_PUBLIC_API_URL=http://localhost:3000
+    env_file:
+      - ./monui-frontend/.env
     depends_on:
       - gateway
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./auth-service/src:/app/src
+    env_file:
+      - ./auth-service/.env
+    depends_on:
+      - user-service
+
 
 
 volumes:

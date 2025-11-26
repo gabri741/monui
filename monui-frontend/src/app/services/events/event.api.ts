@@ -1,10 +1,11 @@
+import React from "react";
+import { getUserIdFromTokenCookie } from "../user/user.service";
 import { EventItem, EventMetrics, PaginatedEvents } from "./event.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
-const userId = 'e3e1f37b-45b3-4a1f-93a7-89d21ce52a77'
 
-export async function getEventMetrics(userId: string) {
+export async function getEventMetrics(userId: string | null) {
   
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/events/metrics/${userId}`,
@@ -51,7 +52,7 @@ export async function createEvent(payload: any) {
 }
 
 export async function findGroupedCalendar(month: number, year: number) {
-  const res = await fetch(`${API_URL}/events/grouped?month=${month + 1}&year=${year}&userId=${userId}`, {
+  const res = await fetch(`${API_URL}/events/grouped?month=${month + 1}&year=${year}&userId=${getUserIdFromTokenCookie("token")}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -62,3 +63,7 @@ export async function findGroupedCalendar(month: number, year: number) {
 
   return res.json();
 }
+
+
+
+

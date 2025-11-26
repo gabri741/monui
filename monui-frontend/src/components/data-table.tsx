@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   closestCenter,
   DndContext,
@@ -11,15 +11,15 @@ import {
   useSensors,
   type DragEndEvent,
   type UniqueIdentifier,
-} from "@dnd-kit/core"
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers"
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   IconChevronDown,
   IconChevronLeft,
@@ -35,7 +35,7 @@ import {
   IconAlertCircle,
   IconClock,
   IconX,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -50,11 +50,11 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@tanstack/react-table";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -62,15 +62,15 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -78,28 +78,28 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { NotificationRecipient } from "@/app/services/notifications/notification.types"
-import { useRecipientsByUser } from "@/app/hooks/useRecipientsByUser"
-
+} from "@/components/ui/table";
+import { NotificationRecipient } from "@/app/services/notifications/notification.types";
+import { useRecipientsByUser } from "@/app/hooks/useRecipientsByUser";
+import { getUserIdFromTokenCookie } from "@/app/services/user/user.service";
 
 // Função para formatar data
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
+  const date = new Date(dateString);
   return date.toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-  })
-}
+  });
+};
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: string }) {
   const { attributes, listeners } = useSortable({
     id,
-  })
+  });
 
   return (
     <Button
@@ -112,7 +112,7 @@ function DragHandle({ id }: { id: string }) {
       <IconGripVertical className="text-muted-foreground size-3" />
       <span className="sr-only">Drag to reorder</span>
     </Button>
-  )
+  );
 }
 
 const columns: ColumnDef<NotificationRecipient>[] = [
@@ -177,7 +177,7 @@ const columns: ColumnDef<NotificationRecipient>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.status
+      const status = row.original.status;
       const statusConfig = {
         sent: {
           icon: IconCircleCheckFilled,
@@ -199,17 +199,17 @@ const columns: ColumnDef<NotificationRecipient>[] = [
           label: "Máx. Tentativas",
           className: "text-orange-500 dark:text-orange-400",
         },
-      }
+      };
 
-      const config = statusConfig[status] || statusConfig.pending
-      const Icon = config.icon
+      const config = statusConfig[status] || statusConfig.pending;
+      const Icon = config.icon;
 
       return (
         <Badge variant="outline" className="text-muted-foreground px-1.5">
           <Icon className={config.className} />
           {config.label}
         </Badge>
-      )
+      );
     },
   },
   {
@@ -262,12 +262,12 @@ const columns: ColumnDef<NotificationRecipient>[] = [
       </DropdownMenu>
     ),
   },
-]
+];
 
 function DraggableRow({ row }: { row: Row<NotificationRecipient> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
-  })
+  });
 
   return (
     <TableRow
@@ -286,48 +286,53 @@ function DraggableRow({ row }: { row: Row<NotificationRecipient> }) {
         </TableCell>
       ))}
     </TableRow>
-  )
+  );
 }
 
 export function DataTable() {
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+    React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10,
-  })
+  });
 
-  // Hook customizado para buscar dados
-  const userId = "e3e1f37b-45b3-4a1f-93a7-89d21ce52a77"
+  const [userId, setUserId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const id = getUserIdFromTokenCookie("token");
+    setUserId(id);
+  }, []);
+
   const { data, total, loading } = useRecipientsByUser(
-    userId,
+    userId ?? "",
     pagination.pageIndex + 1,
     pagination.pageSize
-  )
+  );
 
-  const [localData, setLocalData] = React.useState(data)
+  const [localData, setLocalData] = React.useState(data);
 
   // Atualiza dados locais quando os dados do hook mudam
   React.useEffect(() => {
-    setLocalData(data)
-  }, [data])
+    setLocalData(data);
+  }, [data]);
 
-  const sortableId = React.useId()
+  const sortableId = React.useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {})
-  )
+  );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => localData?.map(({ id }) => id) || [],
     [localData]
-  )
+  );
 
   const table = useReactTable({
     data: localData,
@@ -354,16 +359,16 @@ export function DataTable() {
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
+  });
 
   function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event
+    const { active, over } = event;
     if (active && over && active.id !== over.id) {
-      setLocalData((data : any) => {
-        const oldIndex = dataIds.indexOf(active.id)
-        const newIndex = dataIds.indexOf(over.id)
-        return arrayMove(data, oldIndex, newIndex)
-      })
+      setLocalData((data: any) => {
+        const oldIndex = dataIds.indexOf(active.id);
+        const newIndex = dataIds.indexOf(over.id);
+        return arrayMove(data, oldIndex, newIndex);
+      });
     }
   }
 
@@ -371,9 +376,7 @@ export function DataTable() {
     <div className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-between px-4 lg:px-6 mb-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">
-            Notificações
-          </h2>
+          <h2 className="text-2xl font-bold tracking-tight">Notificações</h2>
           <p className="text-muted-foreground text-sm">
             {total} notificações enviadas
           </p>
@@ -408,7 +411,7 @@ export function DataTable() {
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -438,7 +441,7 @@ export function DataTable() {
                                 header.getContext()
                               )}
                         </TableHead>
-                      )
+                      );
                     })}
                   </TableRow>
                 ))}
@@ -481,8 +484,8 @@ export function DataTable() {
         </div>
         <div className="flex items-center justify-between px-4">
           <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
-            {table.getFilteredSelectedRowModel().rows.length} de{" "}
-            {total} notificação(ões) selecionada(s).
+            {table.getFilteredSelectedRowModel().rows.length} de {total}{" "}
+            notificação(ões) selecionada(s).
           </div>
           <div className="flex w-full items-center gap-8 lg:w-fit">
             <div className="hidden items-center gap-2 lg:flex">
@@ -492,7 +495,7 @@ export function DataTable() {
               <Select
                 value={`${table.getState().pagination.pageSize}`}
                 onValueChange={(value) => {
-                  table.setPageSize(Number(value))
+                  table.setPageSize(Number(value));
                 }}
               >
                 <SelectTrigger size="sm" className="w-20" id="rows-per-page">
@@ -558,5 +561,5 @@ export function DataTable() {
         </div>
       </div>
     </div>
-  )
+  );
 }

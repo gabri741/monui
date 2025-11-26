@@ -1,16 +1,22 @@
-
-
 import { useEffect, useState } from "react";
 import { getEventMetrics, getEvents } from "../services/events/event.api";
 
-export function useEventMetrics(userId: string) {
+export function useEventMetrics(userId: string | null) {
   const [metrics, setData] = useState<any>();
   const [loading, setLoading] = useState(true);
-  
 
   useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
     getEventMetrics(userId)
       .then(setData)
+      .catch((error) => {
+        console.error("Erro ao carregar métricas:", error);
+      })
       .finally(() => setLoading(false));
   }, [userId]);
 
@@ -21,13 +27,18 @@ export function useEvents(
   page: number,
   limit: number,
   search: string,
-  userId = "e3e1f37b-45b3-4a1f-93a7-89d21ce52a77"
+  userId: string
 ) {
   const [data, setData] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
     getEvents(userId, page, limit, search)

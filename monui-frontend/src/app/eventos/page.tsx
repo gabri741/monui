@@ -16,6 +16,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { useEvents } from "../hooks/useEvents";
 import { Search, Plus } from "lucide-react";
+import React from "react";
+import { getUserIdFromTokenCookie } from "../services/user/user.service";
 
 interface Event {
   id: string;
@@ -26,10 +28,19 @@ interface Event {
 }
 
 export default function EventsTable() {
+
+   const [userId, setUserId] = React.useState<string | null>(null);
+  
+    React.useEffect(() => {
+      const id = getUserIdFromTokenCookie("token");
+      setUserId(id);
+    }, []);
+
+
   const router = useRouter();
   const [page, setPage] = useState(1);
 
-  const { data, totalPages, loading } = useEvents(page, 10, "");
+  const { data, totalPages, loading } = useEvents(page, 10, "", userId ?? "");
 
   return (
     <AppLayout loading={loading && page === 1}>

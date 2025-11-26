@@ -5,8 +5,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
 
 export async function getNotificationChartData(userId: string , period : string) {
 
-    userId = 'e3e1f37b-45b3-4a1f-93a7-89d21ce52a77'
-    
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/notifications/stats/${userId}?period=${period}`,

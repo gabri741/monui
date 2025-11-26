@@ -52,12 +52,10 @@ export default function CalendarAgenda() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
-  // Função para gerar cor aleatória
   const getRandomColor = (): string => {
     return EVENT_COLORS[Math.floor(Math.random() * EVENT_COLORS.length)];
   };
 
-  // Buscar eventos da API quando mudar mês/ano
   useEffect(() => {
     fetchEvents();
   }, [month, year]);
@@ -88,7 +86,6 @@ export default function CalendarAgenda() {
     const firstDay = getFirstDayOfMonth();
     const days: CalendarDay[] = [];
 
-    // Dias do mês anterior
     const prevMonthDays = new Date(year, month, 0).getDate();
     for (let i = firstDay - 1; i >= 0; i--) {
       days.push({
@@ -98,7 +95,6 @@ export default function CalendarAgenda() {
       });
     }
 
-    // Dias do mês atual
     for (let day = 1; day <= daysInMonth; day++) {
       days.push({
         day,
@@ -107,7 +103,6 @@ export default function CalendarAgenda() {
       });
     }
 
-    // Dias do próximo mês para completar a grade
     const remainingDays = 42 - days.length;
     for (let day = 1; day <= remainingDays; day++) {
       days.push({
@@ -124,15 +119,10 @@ export default function CalendarAgenda() {
     setCurrentDate(new Date(year, month + direction, 1));
   };
 
-  const handleNewEvent = () => {
-    console.log('Criar novo evento');
-    // router.push('/events/new');
-  };
 
   const handleEditEvent = () => {
     if (selectedEvent) {
-      console.log('Editar evento:', selectedEvent.id);
-      // router.push(`/events/${selectedEvent.id}/edit`);
+
     }
   };
 

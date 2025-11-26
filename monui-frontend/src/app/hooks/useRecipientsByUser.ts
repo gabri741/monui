@@ -14,6 +14,11 @@ export function useRecipientsByUser(
   useEffect(() => {
     let mounted = true;
 
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
     getRecipientsByUser(userId, page, limit)

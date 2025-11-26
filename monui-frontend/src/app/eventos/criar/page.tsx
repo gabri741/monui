@@ -9,13 +9,24 @@ import { toast } from "sonner";
 import { eventService } from "@/app/services/events/event.service";
 import { notificationService } from "@/app/services/notifications/notification.service";
 import { AppLayout } from "@/components/layouts/app-layout";
+import { getUserIdFromTokenCookie } from "@/app/services/user/user.service";
+import React from "react";
 
 export default function EventPage() {
+
+ const [userId, setUserId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const id = getUserIdFromTokenCookie("token");
+    setUserId(id);
+  }, []);
+
+
   // ---------------- EVENTO ----------------
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const createdBy = "e3e1f37b-45b3-4a1f-93a7-89d21ce52a77";
+  const createdBy = userId ?? "";
 
   const [eventCreated, setEventCreated] = useState(false);
   const [eventId, setEventId] = useState("");
@@ -28,7 +39,7 @@ export default function EventPage() {
   const [contacts, setContacts] = useState<string[]>([]);
   const [newContact, setNewContact] = useState("");
 
-  // ---------------- Criar Evento ----------------
+
   const handleCreateEvent = async () => {
     try {
       if (!title || !description || !eventDate) {
@@ -51,16 +62,14 @@ export default function EventPage() {
     }
   };
 
-  // ---------------- Triggers ----------------
+
   const handleAddTrigger = () => {
     if (!newTrigger) return;
     setTriggerDates([...triggerDates, newTrigger]);
     setNewTrigger("");
   };
 
-  // ---------------- Contatos ----------------
 
-  // ---------------- Criar NOTIFICACAO---
   const handleCreateReminder = async () => {
     try {
       if (

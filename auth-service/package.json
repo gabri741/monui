@@ -1,5 +1,5 @@
 {
-  "name": "user-service",
+  "name": "auth-service",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,14 +22,16 @@
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.1",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/typeorm": "^11.0.0",
+    "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
-    "class-validator": "^0.14.3",
-    "pg": "^8.16.3",
+    "google-auth-library": "^10.5.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "typeorm": "^0.3.27"
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

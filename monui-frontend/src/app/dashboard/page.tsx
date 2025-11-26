@@ -5,14 +5,25 @@ import { SectionCards } from "@/components/section-cards";
 import { DataTable } from "@/components/data-table";
 import { AppLayout } from "@/components/layouts/app-layout";
 import { useEventMetrics } from "../hooks/useEvents";
+import React from "react";
+import { getUserIdFromTokenCookie } from "../services/user/user.service";
 
 export default function Page() {
-  const { metrics, loading } = useEventMetrics(
-    "e3e1f37b-45b3-4a1f-93a7-89d21ce52a77"
-  );
+  const [userId, setUserId] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const id = getUserIdFromTokenCookie("token");
+    setUserId(id);
+  }, []);
+
+  // Chamamos o hook SEMPRE, mas ele deve lidar com userId null
+  const { metrics, loading } = useEventMetrics(userId);
+
+  // Podemos mostrar carregando se userId ainda não tiver carregado
+  const isLoading = loading || !userId;
 
   return (
-    <AppLayout loading={loading}>
+    <AppLayout loading={isLoading}>
       <SectionCards
         totalEventosAno={metrics?.yearCreatedCount}
         proximoEventoNome={metrics?.nextEvent?.title ?? "Nenhum evento"}
@@ -20,12 +31,10 @@ export default function Page() {
         totalEventosFuturos={metrics?.futureEventsCount}
         ultimoEventoNome={metrics?.lastCreatedEvent?.title ?? ""}
         ultimoEventoData={formatDate(metrics?.lastCreatedEvent?.datetime) ?? ""}
-        ultimoEventoCriadoEm={
-          formatDate(metrics?.lastCreatedEvent?.createdAt) ?? ""
-        }
+        ultimoEventoCriadoEm={formatDate(metrics?.lastCreatedEvent?.createdAt) ?? ""}
       />
       <div className="px-4 lg:px-6">
-        <ChartAreaInteractive userId="e3e1f37b-45b3-4a1f-93a7-89d21ce52a77" />
+        <ChartAreaInteractive userId={userId ?? ""} />
       </div>
       <DataTable />
     </AppLayout>

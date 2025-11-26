@@ -18,6 +18,12 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column({ unique: true })
+  email: string; // 🔥 obrigatório para login
+
+  @Column({ nullable: true })
+  password: string; // 🔥 senha criptografada ficará aqui
+
   @Column({ type: 'date', nullable: true })
   birthDate: Date;
 
@@ -29,4 +35,7 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({nullable : true})
+  googleId: string;
 }
