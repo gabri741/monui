@@ -60,13 +60,8 @@ export class NotificationService {
     const dueNotifications = await this.findDueNotifications(now);
 
     if (dueNotifications.length === 0) {
-      this.logger.log('Nenhuma notificação pendente encontrada.');
       return;
     }
-
-    this.logger.log(
-      `🔔 Encontradas ${dueNotifications.length} notificações a serem processadas.`,
-    );
 
     for (const notif of dueNotifications) {
       for (const recipient of notif.recipients) {
