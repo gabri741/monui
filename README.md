@@ -8,6 +8,8 @@
 
 ## 📖 Sobre o Projeto
 
+   - Acesse pelo seu navegador:  [Monui](https://monui.vercel.app/login)
+
 **Monui** é uma aplicação web desenvolvida como Trabalho de Conclusão de Curso da Pós-Graduação em Desenvolvimento Full Stack, criada para solucionar um problema comum na vida moderna: o esquecimento de eventos importantes.
 
 Na era digital, marcada por rotinas aceleradas e múltiplos compromissos, muitas pessoas encontram dificuldades para organizar e lembrar eventos como consultas médicas, aniversários, compromissos profissionais, reuniões escolares e celebrações especiais. O Monui surge como uma solução intuitiva e eficaz para esse desafio.
@@ -94,6 +96,17 @@ Interface web responsiva e intuitiva para interação com usuários.
 - **GitHub Actions** - CI/CD
 - **Docker** - Containerização
 ---
+
+## 🌐 Deploy
+
+O frontend da aplicação está hospedado no **Vercel**, garantindo deploy rápido, escalabilidade automática e HTTPS nativo.  
+O backend, composto por microserviços, está hospedado no **Railway**, oferecendo gerenciamento simplificado, deploy contínuo e conexão fácil entre serviços.
+
+- **Acesse a aplicação pelo navegador:** [Monui](https://monui.vercel.app/login)
+- **Frontend:** hospedado no Vercel, com variáveis de ambiente configuradas para comunicação com os microserviços.
+- **Backend:** microserviços no Railway, com endpoints públicos acessíveis pelo frontend e suporte a CORS configurado.
+
+
 
 ## 🚀 Como Executar
 
