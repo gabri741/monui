@@ -182,7 +182,12 @@ Pipeline automatizado com GitHub Actions:
 
 1. **Build**: Compilação e validação do código
 2. **Test**: Execução de testes unitários e integração
-4. **Deploy**: Publicação automatizada em ambiente controlado
+3. **Deploy**: Publicação automatizada em ambiente controlado
+
+Railwai esperando a pipeline rodar
+
+<img width="2329" height="995" alt="Screenshot from 2025-11-27 17-51-59" src="https://github.com/user-attachments/assets/3ca16388-71ab-4956-b6db-7932b65aa3dd" />
+
 
 ---
 
