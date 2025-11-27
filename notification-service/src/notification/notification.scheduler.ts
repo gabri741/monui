@@ -8,10 +8,8 @@ export class NotificationScheduler {
 
   constructor(private readonly notificationService: NotificationService) {}
 
-  // Executa de hora em hora
   @Cron(CronExpression.EVERY_MINUTE)
   async handleHourlyCheck() {
-    this.logger.log('⏰ Executando rotina de verificação de notificações pendentes...');
     await this.notificationService.processPendingNotifications();
   }
 }
