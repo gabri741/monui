@@ -3,7 +3,6 @@
 > Sistema de Gerenciamento de Eventos com Notificações Automatizadas via WhatsApp
 
 [![GitHub](https://img.shields.io/badge/GitHub-monui-blue?logo=github)](https://github.com/gabri741/monui)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-18+-blue.svg)](https://reactjs.org/)
 
@@ -28,6 +27,17 @@ A ausência de sistemas simples e personalizados faz com que eventos importantes
 - 📊 **Dashboard Analytics**: Visualização de estatísticas sobre eventos e notificações
 - 📅 **Visualização em Calendário**: Interface visual para acompanhar eventos programados
 - 📈 **Histórico Completo**: Registro de eventos e notificações enviadas
+
+## 🔄 Jornada do Usuário
+
+Vídeo mostrando o sistema: https://youtu.be/kCo8-YOP4Uo
+
+1. **Autenticação**: Login via email ou Google
+2. **Cadastro de Evento**: Criar compromisso (ex: "Meu Casamento - 21/09/2025")
+3. **Definição de Contatos**: Adicionar convidados com nome e telefone
+4. **Agendamento**: Escolher data e horário de envio das notificações
+5. **Envio Automático**: Sistema dispara mensagens no momento programado
+6. **Acompanhamento**: Visualizar status de entrega e confirmações
 
 ## 🏗️ Arquitetura
 
@@ -151,15 +161,6 @@ O projeto conta com uma cobertura completa de testes:
 ```bash
 npm run test
 ```
-
-## 🔄 Jornada do Usuário
-
-1. **Autenticação**: Login via email ou Google
-2. **Cadastro de Evento**: Criar compromisso (ex: "Meu Casamento - 21/09/2025")
-3. **Definição de Contatos**: Adicionar convidados com nome e telefone
-4. **Agendamento**: Escolher data e horário de envio das notificações
-5. **Envio Automático**: Sistema dispara mensagens no momento programado
-6. **Acompanhamento**: Visualizar status de entrega e confirmações
 
 
 ## 🚀 CI/CD
