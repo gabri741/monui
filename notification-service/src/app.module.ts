@@ -14,7 +14,7 @@ import { NotificationRecipientModule } from './notification-recipient/notificati
       password: process.env.DATABASE_PASSWORD || 'password',
       database: process.env.DATABASE_NAME || 'notificationsdb',
       entities: [Notification],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true,
       autoLoadEntities: true,
     }),
     NotificationModule,

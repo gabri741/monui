@@ -14,7 +14,7 @@ import { Event } from './event/event.entity';
       password: process.env.DATABASE_PASSWORD || 'password',
       database: process.env.DATABASE_NAME || 'eventsdb',
       entities: [Event],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true,
       autoLoadEntities: true,
     }),
     EventModule,

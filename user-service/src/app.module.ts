@@ -14,7 +14,7 @@ import { User } from './user/user.entity';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       entities: [User],
-      synchronize: process.env.NODE_ENV !== 'production', 
+      synchronize: true, 
       autoLoadEntities: true,
     }),
     TypeOrmModule.forFeature([User]),
