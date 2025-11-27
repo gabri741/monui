@@ -8,19 +8,19 @@ export class ProxyService {
 
   async forwardRequest(method: string, url: string, body: any, headers: any) {
     try {
-
       const response$ = this.httpService.request({
         method,
         url,
-        data: body, 
+        data: body,
         headers: {
           ...headers,
-          host: undefined, 
-          'content-length': undefined, 
+          host: undefined,
+          'content-length': undefined,
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
         timeout: 10000,
+        validateStatus: (status) => status >= 200 && status < 500, // <-- permite 304
       }).pipe(
         catchError((error) => {
           throw error;
@@ -28,11 +28,16 @@ export class ProxyService {
       );
 
       const response = await lastValueFrom(response$);
+
+      // Se for 304, podemos retornar algo padrão ou informar que não há modificação
+      if (response.status === 304) {
+        return { message: "Not Modified", data: null };
+      }
+
       return response.data;
 
     } catch (error) {
       console.error("🚨 ERRO NO PROXY");
-
       console.error("🔸 Mensagem:", error.message);
       console.error("🔸 Código:", error.code);
       console.error("🔸 Stack:", error.stack);
