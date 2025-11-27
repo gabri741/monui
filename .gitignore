@@ -6,7 +6,7 @@
 node_modules/
 **/node_modules/
 
-# Build outputs
+# Build outputs - APENAS os temporários
 dist/
 build/
 .next/
@@ -24,33 +24,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependency directories
-jspm_packages/
-
-# Environment files
+# Environment files - MANTER .env.example
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# NestJS specific
-*.tsbuildinfo
-.idea/
-.DS_Store
-*.swp
-*.swo
-
-# TypeScript
+# TypeScript build info
 *.tsbuildinfo
 
 # Editor directories and files
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 *.code-workspace
-*.history
+.history/
 *.sublime-project
 *.sublime-workspace
 *.iml
+.idea/
 
 # OS specific
 Thumbs.db
@@ -59,17 +54,16 @@ Desktop.ini
 .DS_Store
 .AppleDouble
 .LSOverride
-Icon?
+Icon
 __MACOSX/
 
 # Optional npm cache directory
 .npm
-.yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
 .pnp.*
-.pnp.js
-.pnp.cjs
-.yarnrc.yml
-.yarn-integrity
 
 # Optional eslint cache
 .eslintcache
@@ -80,72 +74,43 @@ __MACOSX/
 # Optional REPL history
 .node_repl_history
 
-# Optional coverage output
+# Coverage directory used by tools like istanbul
 coverage/
+*.lcov
 .nyc_output/
 
-# Optional build artifacts
-lib/
-.serve/
-serverless/
-
-# Next.js build output
+# Next.js
 .next/
 out/
 .vercel/
 
-# React build output
-build/
-.cache/
-.expo/
-web-build/
-
-# Docker
-*.pid
-*.seed
-*.pid.lock
+# Docker - dados locais apenas
 docker-compose.override.yml
-docker-compose.local.yml
 **/docker-data/
-**/.docker/
 
-# Prisma
+# Prisma - manter migrations no Git!
 prisma/dev.db
-prisma/migrations/
 prisma/*.db-journal
 
-# SQLite
+# SQLite local
 *.sqlite
 *.sqlite-journal
+*.db
 
-# Test coverage
-coverage/
-lcov-report/
+# Test
+*.test.js.snap
 
-# Miscellaneous
-*.tgz
-*.zip
-*.tar
-*.tar.gz
+# Temporary files
 *.tmp
 *.bak
-*.backup
-*.orig
-*.rej
+*.swp
+*.swo
 
-# VSCode Remote Containers
-.devcontainer/
+# Lock files - ESCOLHA UM e mantenha no Git
+# Descomente a linha do gerenciador que VOCÊ NÃO USA:
+# yarn.lock      # Se usa npm, ignore yarn.lock
+# pnpm-lock.yaml # Se usa npm, ignore pnpm-lock.yaml
+# bun.lockb      # Se usa npm, ignore bun.lockb
 
-# JetBrains
-.idea/
-*.iml
-out/
-
-# Optional npm lock files (keep only one)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
-
-# System files
-*.envrc
+# Se usa npm, comente a linha abaixo para MANTER package-lock.json no Git
+# package-lock.json
