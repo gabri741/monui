@@ -182,7 +182,6 @@ Pipeline automatizado com GitHub Actions:
 
 1. **Build**: Compilação e validação do código
 2. **Test**: Execução de testes unitários e integração
-3. **Docker**: Build e push de imagens
 4. **Deploy**: Publicação automatizada em ambiente controlado
 
 ---
