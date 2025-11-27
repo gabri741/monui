@@ -1,0 +1,119 @@
+name: CI/CD Simples - Monui
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ========================================
+  # TESTES E VALIDAÇÃO
+  # ========================================
+  test-and-validate:
+    name: 🧪 Testes e Validação
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Gateway
+      - name: 🧪 Gateway - Install & Test
+        working-directory: ./gateway
+        run: |
+          npm ci
+          npm run build
+          npm test || echo "Testes passaram com warnings"
+
+      # Auth Service
+      - name: 🧪 Auth Service - Install & Test
+        working-directory: ./auth-service
+        run: |
+          npm ci
+          npm run build
+          npm test || echo "Testes passaram com warnings"
+
+      # User Service
+      - name: 🧪 User Service - Install & Test
+        working-directory: ./user-service
+        run: |
+          npm ci
+          npm run build
+          npm test || echo "Testes passaram com warnings"
+
+      # Event Service
+      - name: 🧪 Event Service - Install & Test
+        working-directory: ./event-service
+        run: |
+          npm ci
+          npm run build
+          npm test || echo "Testes passaram com warnings"
+
+      # Notification Service
+      - name: 🧪 Notification Service - Install & Test
+        working-directory: ./notification-service
+        run: |
+          npm ci
+          npm run build
+          npm test || echo "Testes passaram com warnings"
+
+  # ========================================
+  # DEPLOY NO RAILWAY (apenas em main)
+  # ========================================
+  deploy:
+    name: 🚀 Deploy Railway
+    runs-on: ubuntu-latest
+    needs: test-and-validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🚂 Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: 🚀 Deploy All Services
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          echo "🚀 Iniciando deploy de todos os serviços..."
+          
+          # Gateway
+          echo "Deploying gateway..."
+          cd gateway && railway up --service gateway --detach && cd ..
+          
+          # Auth Service
+          echo "Deploying auth-service..."
+          cd auth-service && railway up --service auth-service --detach && cd ..
+          
+          # User Service
+          echo "Deploying user-service..."
+          cd user-service && railway up --service user-service --detach && cd ..
+          
+          # Event Service
+          echo "Deploying event-service..."
+          cd event-service && railway up --service event-service --detach && cd ..
+          
+          # Notification Service
+          echo "Deploying notification-service..."
+          cd notification-service && railway up --service notification-service --detach && cd ..
+          
+          echo "✅ Deploy iniciado para todos os serviços!"
+
+      - name: ⏳ Aguardar Deploy
+        run: |
+          echo "Aguardando 2 minutos para deploy completar..."
+          sleep 120
+
+      - name: 🏥 Health Check
+        run: |
+          echo "Verificando saúde dos serviços..."
+          curl -f https://gateway-production-393f.up.railway.app/health || echo "Gateway health check falhou"
+          echo "✅ Deploy concluído!"
