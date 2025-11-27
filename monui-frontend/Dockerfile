@@ -1,14 +1,14 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copia package.json e package-lock
 COPY package*.json ./
-
 RUN npm install
 
 COPY . .
 
-EXPOSE ${PORT}
+RUN npm run build
 
-CMD ["npm", "run"]
+EXPOSE 3005
+
+CMD ["npm", "start"]

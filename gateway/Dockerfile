@@ -25,7 +25,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 
 # Expor porta (será sobrescrita por variável de ambiente)
-EXPOSE ${PORT}
+EXPOSE 3000
 
 # Comando para iniciar
 CMD ["node", "dist/main.js"]
