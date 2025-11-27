@@ -32,7 +32,8 @@ COPY --from=builder /app/.next/static ./.next/static
 
 USER nextjs
 
-# Expor porta (será sobrescrita por variável de ambiente)
-EXPOSE ${PORT}
+EXPOSE 3000
+
+ENV PORT 3000
 
 CMD ["node", "server.js"]
